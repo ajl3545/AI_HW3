@@ -19,10 +19,37 @@ def MSE(X, y, w):
         c += 1
     return SE/n  # Mean Squared Error
 
-
+# returns w = weights
+# X = (N x D) matrix of attribs 
 def CF_SOLVER(X, y, l):
-    return 0
+    # augment matrix X to have 1's in first column
+    # X's rows become An = [1,Xn]
 
+    A = [] # The augmented matrix = [1,Xn], where n is the row #
+    for row in X:
+        A.append(row.append(0,1))
+
+    A_T = [] # list A, transposed
+    zipped = zip(A)
+    for row in zipped:
+        transposed.append(row)
+
+    # Now dot and invert: (A_T * A)^-1 * A_T * y
+    cost_n = dot(inv(A_T),inv(A)) * dot(A_T,y)
+    
+# returns the matricies dot product
+def dot(m1,m2):
+    return m1 @ m2 #py 3.x and above
+
+# returs the matrix inverse
+def inverse(m):
+    inv = []
+    for y in range(len(m)):
+        row = []
+        for x in range(len(m[0])):
+            row.append(1/m[y][x])
+        inv.append(row)
+    return inv
 
 def REG_MET(x, y, w, l):
     return 0
