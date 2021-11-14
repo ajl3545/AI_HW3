@@ -22,17 +22,58 @@ def SE(X, y, w):
         c += 1
     return SE  # Squared Error
 
+# Returns the cost function given any 
+# x,y,w parameters with l regularization
 def REG_MET(x, y, w, l):
 
-    # slide deck CH19-v3-F2021 slide 19
-    # plus lambda regularization * identity
-
+    # L(w; X, y)= Loss
     L = SE(x, y, w)
+    
+    # Euclidean norm of w = R(w)
+    l_R = 0
+    for w_i in w:
+        l_R += abs(w_i) ** 2
 
-# returns w = weights
-# X = (N x D) matrix of attribs 
+    # C(w;X,y) = L(w: X, y) + lambda*R(w)
+    return L + (l*l_R)
+
+# Returns the optimal cost function of a weighted w vector
 def CF_SOLVER(X, y, l):
-    return 0
+
+    # Augment
+    A = [] # [1,X]
+    for row in X:
+        A.append(np.append(1,row))
+    A_tr = np.array(A)
+    A_trans = np.transpose(A_tr)
+    y_tr = y
+
+    # Wopt = (A_transpose * A + lI)^-1 * A_transpose * y_tr    
+    d = np.dot(A_trans,A_tr)
+    ident = l*np.identity(len(d))
+    inv = np.linalg.inv(d + ident)
+    Wopt = np.dot(inv,np.dot(A_trans,y_tr))
+
+    return (Wopt,REG_MET(X,y,Wopt,l))
+
 
 def GD_SOLVER(X, y, p, l, step):
     return 0
+
+def gradient():
+    return 0
+
+X = np.array([[2,2,2,2],
+              [2,2,2,2],
+              [2,2,2,2],
+              [2,2,2,2],
+              [2,2,2,2]])
+y = np.array([1,
+              2,
+              3,
+              4,
+              5])
+l = 1
+(w,mtr) = CF_SOLVER(X,y,l)
+print(w)
+print(mtr)
