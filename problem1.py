@@ -24,20 +24,7 @@ def MSE(X, y, w):
 # returns w = weights
 # X = (N x D) matrix of attribs 
 def CF_SOLVER(X, y, l):
-    # augment matrix X to have 1's in first column
-    # X's rows become An = [1,Xn]
 
-    A = [] # The augmented matrix = [1,Xn], where n is the row #
-    for row in X:
-        A.append(row.append(0,1))
-
-    A_T = [] # list A, transposed
-    zipped = zip(A)
-    for row in zipped:
-        transposed.append(row)
-
-    # Now dot and invert: (A_T * A)^-1 * A_T * y
-    cost_n = dot(inv(A_T),inv(A)) * dot(A_T,y)
     
 # returns the matricies dot product
 def dot(m1,m2):
@@ -49,7 +36,6 @@ def inverse(m):
 
 def REG_MET(x, y, w, l):
     return 0
-
 
 def GD_SOLVER(X, y, p, l, step):
     return 0
