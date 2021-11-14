@@ -32,7 +32,7 @@ def REG_MET(x, y, w, l):
     # Euclidean norm of w = R(w)
     l_R = 0
     for w_i in w:
-        l_R += abs(w_i) ** 2
+        l_R += pow(w_i,2)
 
     # C(w;X,y) = L(w: X, y) + lambda*R(w)
     return L + (l*l_R)
@@ -59,14 +59,29 @@ def CF_SOLVER(X, y, l):
 
 def GD_SOLVER(X, y, p, l, step):
 
-    parameters = []; w.append(p)
+    parameters = []; parameters.append(p)
     costs = []
 
-    # The benchmarks for a good alg
-    (w_bench,mtr_bench) = CF_SOLVER(X, y, l)
+    iters = 0
+    
+    while (True):
+        
+        # Most recent W
+        w = parameters[len(parameters)-1]
+       
+        (mtr) = REG_MET(X, y, w, l)
+        costs.append(mtr)
 
-    # e_n = euclidean norm
-    (mtr,e_n) = REG_MET(X, y, p, l)
+        g = gradient(X,w,y)
+
+        # Terminate
+        if (np.linalg.norm(g)**2 < pow(10,-8)): 
+            return (parameters,costs)
+        
+        # Descend gradient
+        parameters.append(w - step*g)
+
+        iters += 1
 
 def gradient(X,w,y):
     A = []
@@ -75,16 +90,18 @@ def gradient(X,w,y):
     A_tr = np.array(A)
     A_trans = np.transpose(A_tr)
 
-    return 2 * np.dot(A_trans,A_tr) - 2 * np.dot(A_trans,y)
+    return (2 * np.dot(np.dot(A_trans,A_tr),w)) - (2 * np.dot(A_trans,y))
 
 X = np.array([[2,2,2,2],
-              [2,2,2,2],
-              [2,2,2,2],
-              [2,2,2,2],
-              [2,2,2,2]])
+              [2,5,5,2],
+              [2,2,4,3],
+              [2,2,1,2],
+              [2,7,2,2]])
 y = np.array([1,
               2,
               3,
               4,
               5])
 l = 1
+
+print(GD_SOLVER(X,y,[1,1,1,1,1],l,0.0005))
