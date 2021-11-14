@@ -91,17 +91,3 @@ def gradient(X,w,y):
     A_trans = np.transpose(A_tr)
 
     return (2 * np.dot(np.dot(A_trans,A_tr),w)) - (2 * np.dot(A_trans,y))
-
-X = np.array([[2,2,2,2],
-              [2,5,5,2],
-              [2,2,4,3],
-              [2,2,1,2],
-              [2,7,2,2]])
-y = np.array([1,
-              2,
-              3,
-              4,
-              5])
-l = 1
-
-print(GD_SOLVER(X,y,[1,1,1,1,1],l,0.0005))
