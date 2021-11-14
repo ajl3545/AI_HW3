@@ -1,6 +1,8 @@
 # Alex Lamarche
 # AI EXP HW3
 
+import numpy as np
+
 def LIN_REG(X, w):
     y = w[0] # intercept 
     for i in range(len(X)):
@@ -39,17 +41,11 @@ def CF_SOLVER(X, y, l):
     
 # returns the matricies dot product
 def dot(m1,m2):
-    return m1 @ m2 #py 3.x and above
+    return np.linalg.dot(m1,m2)
 
 # returs the matrix inverse
 def inverse(m):
-    inv = []
-    for y in range(len(m)):
-        row = []
-        for x in range(len(m[0])):
-            row.append(1/m[y][x])
-        inv.append(row)
-    return inv
+    return np.linalg.inverse(m)
 
 def REG_MET(x, y, w, l):
     return 0
