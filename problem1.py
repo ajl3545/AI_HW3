@@ -11,8 +11,6 @@ def LIN_REG(X, w):
 # X = (N x D) matrix of attribs
 # y = corresponding prediction vector
 # w = (D+1 x 1) parameter vector
-
-
 def MSE(X, y, w):
     SE = 0  # Squared Error
     n = len(X)  # total regressors
