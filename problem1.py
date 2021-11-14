@@ -1,5 +1,5 @@
 # Alex Lamarche
-# AI EXP HW3
+# AI EXP HW3 : Problem 1 : problem1.py
 
 import numpy as np
 
@@ -58,10 +58,24 @@ def CF_SOLVER(X, y, l):
 
 
 def GD_SOLVER(X, y, p, l, step):
-    return 0
 
-def gradient():
-    return 0
+    parameters = []; w.append(p)
+    costs = []
+
+    # The benchmarks for a good alg
+    (w_bench,mtr_bench) = CF_SOLVER(X, y, l)
+
+    # e_n = euclidean norm
+    (mtr,e_n) = REG_MET(X, y, p, l)
+
+def gradient(X,w,y):
+    A = []
+    for row in X:
+        A.append(np.append(1,row))
+    A_tr = np.array(A)
+    A_trans = np.transpose(A_tr)
+
+    return 2 * np.dot(A_trans,A_tr) - 2 * np.dot(A_trans,y)
 
 X = np.array([[2,2,2,2],
               [2,2,2,2],
@@ -74,6 +88,3 @@ y = np.array([1,
               4,
               5])
 l = 1
-(w,mtr) = CF_SOLVER(X,y,l)
-print(w)
-print(mtr)
