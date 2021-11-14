@@ -55,6 +55,7 @@ def GD_SOLVER(X, y, p, l, step):
     return 0
 
 
+#Make these np.array's
 #print(LIN_REG([1, 2, 3, 4, 5], [1, 1, 1, 1, 1, 1]))
 #print(MSE([[1, 1, 1], [1, 1, 1], [1, 1, 1]], [4, 4, 4], [1, 1, 1, 1]))
  
