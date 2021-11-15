@@ -5,10 +5,7 @@ import numpy as np
 
 def LIN_REG(X, w):
     # Augmented
-    A = []
-    for row in X:
-        A.append(np.append(1,row))
-    
+    A = np.append(1,X)
     y = 0 
     for i in range(len(A)):
         y += A[i]*w[i]  
@@ -18,14 +15,16 @@ def LIN_REG(X, w):
 # y = corresponding prediction vector
 # w = (D+1 x 1) parameter vector
 def MSE(X, y, w):
-    return SE(X, y, w)/len(X)
+    se = SE(X, y, w)
+    return se/len(X)
 def SE(X, y, w):
-    SE = 0  # Total Squared Error
+    total = 0  # Total Squared Error
     c = 0  # counter
     for attribs in X:
-        SE += pow(abs(y[c] - LIN_REG(attribs, w)), 2)
+        total += pow(abs(y[c] - LIN_REG(attribs, w)), 2)
         c += 1
-    return SE  # Squared Error
+
+    return total# Squared Error
 
 # Returns the cost function given any 
 # x,y,w parameters with l regularization
@@ -35,9 +34,7 @@ def REG_MET(x, y, w, l):
     L = SE(x, y, w)
     
     # Euclidean norm of w = R(w)
-    l_R = 0
-    for w_i in w:
-        l_R += pow(w_i,2)
+    l_R = np.linalg.norm(w)**2
 
     # C(w;X,y) = L(w: X, y) + lambda*R(w)
     return L + (l*l_R)
