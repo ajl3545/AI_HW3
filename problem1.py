@@ -63,7 +63,6 @@ def GD_SOLVER(X, y, p, l, step):
 
     parameters = []; parameters.append(p)
     costs = []
-    iters = 0
     
     while (True):
         
@@ -81,8 +80,6 @@ def GD_SOLVER(X, y, p, l, step):
         
         # Descend gradient
         parameters.append(w - step*g)
-
-        iters += 1
 
 def gradient(X,w,y):
     A = []
