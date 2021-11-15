@@ -16,22 +16,21 @@ def LIN_REG(X, w):
 # w = (D+1 x 1) parameter vector
 def MSE(X, y, w):
     se = SE(X, y, w)
-    return se/len(X)
+    return se/len(X[0])
 def SE(X, y, w):
     total = 0  # Total Squared Error
     c = 0  # counter
     for attribs in X:
         total += pow(abs(y[c] - LIN_REG(attribs, w)), 2)
         c += 1
-
-    return total# Squared Error
+    return total # Squared Error
 
 # Returns the cost function given any 
 # x,y,w parameters with l regularization
 def REG_MET(x, y, w, l):
 
     # L(w; X, y)= Loss
-    L = SE(x, y, w)
+    L = MSE(x, y, w)
     
     # Euclidean norm of w = R(w)
     l_R = np.linalg.norm(w)**2
@@ -55,37 +54,47 @@ def CF_SOLVER(X, y, l):
     ident = l*np.identity(len(d))
     inv = np.linalg.inv(d + ident)
     Wopt = np.dot(inv,np.dot(A_trans,y_tr))
+    Wopt_t = np.transpose(Wopt)
 
-    return (Wopt,REG_MET(X,y,Wopt,l))
+    return (Wopt,REG_MET(X,y,Wopt_t,l))
 
 
 def GD_SOLVER(X, y, p, l, step):
 
     parameters = []; parameters.append(p)
     costs = []
+
+    i = 1 
     
     while (True):
         
         # Most recent W
-        w = parameters[len(parameters)-1]
-       
+        w = parameters[-1]
+
         (mtr) = REG_MET(X, y, w, l)
         costs.append(mtr)
 
-        g = gradient(X,w,y)
+        g = gradient(X,w,y,l)
 
         # Terminate
-        if (np.linalg.norm(g)**2 < pow(10,-8)): 
+        if (np.linalg.norm(g)**2 < pow(10,-8)):
+            print("W len = " + str(len(parameters))) 
+            print("iters len = " + str(i)) 
             return (parameters,costs)
         
         # Descend gradient
         parameters.append(w - step*g)
 
-def gradient(X,w,y):
+        i+=1
+
+def gradient(X,w,y,l):
     A = []
     for row in X:
         A.append(np.append(1,row))
     A_tr = np.array(A)
     A_trans = np.transpose(A_tr)
 
-    return (2 * np.dot(np.dot(A_trans,A_tr),w)) - (2 * np.dot(A_trans,y))
+    d = np.dot(A_trans,A_tr)
+    ident = l*np.identity(len(d))
+
+    return (2 * np.dot(d+ident,w)) - (2 * np.dot(A_trans,y))
