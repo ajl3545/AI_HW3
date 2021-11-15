@@ -4,16 +4,21 @@
 import numpy as np
 
 def LIN_REG(X, w):
-    y = w[0] # intercept 
-    for i in range(len(X)):
-        y += X[i]*w[i+1]  
+    # Augmented
+    A = []
+    for row in X:
+        A.append(np.append(1,row))
+    
+    y = 0 
+    for i in range(len(A)):
+        y += A[i]*w[i]  
     return y
 
 # X = (N x D) matrix of attribs
 # y = corresponding prediction vector
 # w = (D+1 x 1) parameter vector
 def MSE(X, y, w):
-    return SE(X, y, w)/len(x)
+    return SE(X, y, w)/len(X)
 def SE(X, y, w):
     SE = 0  # Total Squared Error
     c = 0  # counter
@@ -61,7 +66,6 @@ def GD_SOLVER(X, y, p, l, step):
 
     parameters = []; parameters.append(p)
     costs = []
-
     iters = 0
     
     while (True):
