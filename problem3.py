@@ -20,37 +20,40 @@ def execute(data, c):
     X_tr = data.iloc[:, 1:].values.tolist()
     # Get the y_tr vector
     y_tr = np.array(data.iloc[:, 0].values.tolist())
-    # lambda = 0 for problem 2.2
-    l = 0
 
-    # 2.2 Run CF_SOLVER on data
-    (Wopt, mtr) = p1.CF_SOLVER(X_tr, y_tr, l)
-    print("Wopt = \n" + str(Wopt.tolist()))
-    print("Opt Cost (mtr) = " + str(mtr))
+    l = [0, 0.1, 1]
 
-    mse = p1.MSE(X_tr, y_tr, Wopt)
-    print("Opt MSE = " + str(mse))
+    color_count = 0
+    for l_i in l:
 
-    # 2.3 Intermediate MSE's during descent
-    (W, costs, norms) = p1.GD_SOLVER(
-        X_tr, y_tr, np.ones(len(X_tr[0])+1), 0, 0.01)
-    mse_count = 0
+        (Wopt, mtr) = p1.CF_SOLVER(X_tr, y_tr, l_i)
+        print("Wopt = \n" + str(Wopt.tolist()))
+        print("Opt Cost (mtr) = " + str(mtr))
 
-    ms = []
+        mse = p1.MSE(X_tr, y_tr, Wopt)
+        print("Opt MSE = " + str(mse))
 
-    for w_params in W:
-        m = p1.MSE(X_tr, y_tr, w_params)
-        ms.append(m)
-        m_s = "{:.10f}".format(m)
-        print("MSE " + str(mse_count) + " = " + m_s)
-        mse_count += 1
+        # 3.2 Intermediate MSE's during descent
+        (W, costs, norms) = p1.GD_SOLVER(
+            X_tr, y_tr, np.ones(len(X_tr[0])+1), l_i, 0.001)
+        mse_count = 0
 
-    # plot the points
+        ms = []
 
-    plt.plot(np.transpose([range(len(W))]), ms, color=c)
-    plt.plot(np.transpose([range(len(W))]), [mtr]*len(W), color="black")
+        for w_params in W:
+            m = p1.MSE(X_tr, y_tr, w_params)
+            ms.append(m)
+            m_s = "{:.10f}".format(m)
+            print("MSE " + str(mse_count) + " = " + m_s)
+            mse_count += 1
 
-# For the first 10 values
+        # plot the points
+
+        plt.title(str("l=[0,0.1,1]"))
+        plt.plot(np.transpose([range(len(W))]), ms, color=c[color_count])
+        plt.plot(np.transpose([range(len(W))]), [
+                 mtr]*len(W), color=c[color_count])
+        color_count += 1
 
 
 def execute_first_10(data, c):
@@ -60,87 +63,52 @@ def execute_first_10(data, c):
     # Get the y_tr vector
     y_tr = data.iloc[:10, 0].values.tolist()
     # lambda = 0 for problem 2.2
-    l = 0
+    l = [0, 0.1, 1]
 
-    # 2.2 Run CF_SOLVER on data
-    (Wopt, mtr) = p1.CF_SOLVER(X_tr, y_tr, l)
-    print("Wopt = \n" + str(Wopt.tolist()))
-    print("Opt Cost (mtr) = " + str(mtr))
+    color_count = 0
+    for l_i in l:
 
-    mse = p1.MSE(X_tr, y_tr, Wopt)
-    print("Opt MSE = " + str(mse))
+        (Wopt, mtr) = p1.CF_SOLVER(X_tr, y_tr, l_i)
+        print("Wopt = \n" + str(Wopt.tolist()))
+        print("Opt Cost (mtr) = " + str(mtr))
 
-    # 2.3 Intermediate MSE's during descent
-    (W, costs, norms) = p1.GD_SOLVER(
-        X_tr, y_tr, np.ones(len(X_tr[0])+1), 0, 0.01)
-    mse_count = 0
+        mse = p1.MSE(X_tr, y_tr, Wopt)
+        print("Opt MSE = " + str(mse))
 
-    ms = []
+        # 3.2 Intermediate MSE's during descent
+        (W, costs, norms) = p1.GD_SOLVER(
+            X_tr, y_tr, np.ones(len(X_tr[0])+1), l_i, 0.001)
+        mse_count = 0
 
-    for w_params in W:
-        m = p1.MSE(X_tr, y_tr, w_params)
-        ms.append(m)
-        m_s = "{:.10f}".format(m)
-        print("MSE " + str(mse_count) + " = " + m_s)
-        mse_count += 1
+        ms = []
 
-    # plot the points
+        for w_params in W:
+            m = p1.MSE(X_tr, y_tr, w_params)
+            ms.append(m)
+            m_s = "{:.10f}".format(m)
+            print("MSE " + str(mse_count) + " = " + m_s)
+            mse_count += 1
 
-    plt.plot(np.transpose([range(len(W))]), ms, color=c)
-    plt.plot(np.transpose([range(len(W))]), [mtr]*len(W), color="black")
+        # plot the points
 
-# For the first 10 values
-
-
-def execute_l_2(data, c):
-
-    # Get the X_tr matrix
-    X_tr = data.iloc[:10, 1:].values.tolist()
-    # Get the y_tr vector
-    y_tr = data.iloc[:10, 0].values.tolist()
-    # lambda = 0 for problem 2.2
-    l = 2
-
-    # 2.2 Run CF_SOLVER on data
-    (Wopt, mtr) = p1.CF_SOLVER(X_tr, y_tr, l)
-    print("Wopt = \n" + str(Wopt.tolist()))
-    print("Opt Cost (mtr) = " + str(mtr))
-
-    mse = p1.MSE(X_tr, y_tr, Wopt)
-    print("Opt MSE = " + str(mse))
-
-    # 2.3 Intermediate MSE's during descent
-    (W, costs, norms) = p1.GD_SOLVER(
-        X_tr, y_tr, np.ones(len(X_tr[0])+1), 0, 0.01)
-    mse_count = 0
-
-    ms = []
-
-    for w_params in W:
-        m = p1.MSE(X_tr, y_tr, w_params)
-        ms.append(m)
-        m_s = "{:.10f}".format(m)
-        print("MSE " + str(mse_count) + " = " + m_s)
-        mse_count += 1
-
-    # plot the points
-
-    plt.plot(np.transpose([range(len(W))]), ms, color=c)
-    plt.plot(np.transpose([range(len(W))]), [mtr]*len(W), color="black")
+        plt.title(str("l=[0,0.1,1]"))
+        plt.plot(np.transpose([range(len(W))]), ms, color=c[color_count])
+        plt.plot(np.transpose([range(len(W))]), [
+                 mtr]*len(W), color=c[color_count])
+        color_count += 1
 
 
 # 2.1 loading data from table
-clean_tr_data = load_table("data/noisy_data.xlsx", "Sheet1")
-clean_v_data = load_table("data/noisy.xlsx", "Sheet2")
-clean_te_data = load_table("data/noisy.xlsx", "Sheet3")
+noisy_tr_data = load_table("data/noisy_data.xlsx", "Sheet1")
+noisy_v_data = load_table("data/noisy_data.xlsx", "Sheet2")
+noisy_te_data = load_table("data/noisy_data.xlsx", "Sheet3")
 
 # Training executions
-# execute(clean_tr_data, "blue")           # all data
-# execute_first_10(clean_tr_data,"blue")  # first 10 rows
-# execute_l_2(clean_tr_data, "blue")      # lambda = 2
+# execute(noisy_tr_data, ["red", "green", "blue"])           # all data
+execute_first_10(noisy_tr_data, ["red", "green", "blue"])   # first 10 rows
 
 # Testing executions
-# execute(clean_te_data, "red")          # all data
-# execute_first_10(clean_te_data,"red")
-#execute_l_2(clean_te_data, "red")
+# execute(noisy_te_data, ["red", "green", "blue"])            # all data
+#execute_first_10(noisy_te_data,["red", "green", "blue"])
+
 plt.show()

@@ -33,7 +33,7 @@ def execute(data, c):
 
     # 2.3 Intermediate MSE's during descent
     (W, costs, norms) = p1.GD_SOLVER(
-        X_tr, y_tr, np.ones(len(X_tr[0])+1), 0, 0.01)
+        X_tr, y_tr, np.ones(len(X_tr[0])+1), l, 0.01)
     mse_count = 0
 
     ms = []
@@ -72,7 +72,7 @@ def execute_first_10(data, c):
 
     # 2.3 Intermediate MSE's during descent
     (W, costs, norms) = p1.GD_SOLVER(
-        X_tr, y_tr, np.ones(len(X_tr[0])+1), 0, 0.01)
+        X_tr, y_tr, np.ones(len(X_tr[0])+1), l, 0.01)
     mse_count = 0
 
     ms = []
@@ -111,7 +111,7 @@ def execute_l_2(data, c):
 
     # 2.3 Intermediate MSE's during descent
     (W, costs, norms) = p1.GD_SOLVER(
-        X_tr, y_tr, np.ones(len(X_tr[0])+1), 0, 0.01)
+        X_tr, y_tr, np.ones(len(X_tr[0])+1), l, 0.01)
     mse_count = 0
 
     ms = []
@@ -135,9 +135,9 @@ clean_v_data = load_table("data/clean_data.xlsx", "Sheet2")
 clean_te_data = load_table("data/clean_data.xlsx", "Sheet3")
 
 # Training executions
-# execute(clean_tr_data, "blue")           # all data
+execute(clean_tr_data, "red")           # all data
 # execute_first_10(clean_tr_data,"blue")  # first 10 rows
-# execute_l_2(clean_tr_data, "blue")      # lambda = 2
+#execute_l_2(clean_tr_data, "blue")      # lambda = 2
 
 # Testing executions
 # execute(clean_te_data, "red")          # all data
